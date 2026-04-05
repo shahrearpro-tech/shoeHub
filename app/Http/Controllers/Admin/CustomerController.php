@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class CustomerController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = User::where('role', 'customer')->withCount('orders');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%')
+                  ->orWhere('email', 'like', '%'.$request->search.'%')
+                  ->orWhere('phone', 'like', '%'.$request->search.'%');
+            });
+        }
+
+        $customers = $query->latest()->paginate(20);
+        return view('admin.customers.index', compact('customers'));
+    }
+}

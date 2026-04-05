@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+// --- ShoeHub Environment Auto-Switch (Silent) ---
+if (strpos(PHP_BINARY, 'Program Files') !== false || strpos(PHP_BINARY, 'php8.5') !== false) {
+    $xampp_php = 'G:\xaamp\php\php.exe';
+    if (file_exists($xampp_php)) {
+        $args = $_SERVER['argv'];
+        array_shift($args);
+        $arg_string = implode(' ', array_map('escapeshellarg', $args));
+        passthru("\"$xampp_php\" artisan $arg_string");
+        exit(0);
+    }
+}
+// --- End ---
+
+use Illuminate\Foundation\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+
+define('LARAVEL_START', microtime(true));
+
+// Register the Composer autoloader...
+require __DIR__.'/vendor/autoload.php';
+
+// Bootstrap Laravel and handle the command...
+/** @var Application $app */
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$status = $app->handleCommand(new ArgvInput);
+
+exit($status);
