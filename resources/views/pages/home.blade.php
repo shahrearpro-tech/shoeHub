@@ -439,32 +439,37 @@
             <h2 class="text-4xl md:text-5xl font-playfair font-bold text-secondary">Happy Customers</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach($videos as $video)
-                <div class="group relative rounded-[2.5rem] overflow-hidden bg-light aspect-[4/5] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                    <img src="{{ $video->thumbnail_url ? (str_starts_with($video->thumbnail_url, 'http') ? $video->thumbnail_url : asset('storage/' . $video->thumbnail_url)) : 'https://placehold.co/600x800/000/fff?text=' . urlencode($video->customer_name) }}" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
-                    
-                    <button onclick="openVideoLightbox('{{ $video->video_url }}')" class="absolute inset-0 flex items-center justify-center transition-all duration-300">
-                        <div class="relative transform group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-white rounded-full video-ping-animation opacity-40"></div>
-                            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl relative z-10 transition-all duration-300">
-                                <i class="fas fa-play text-primary ml-1 text-2xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @forelse($videos as $video)
+                    <div class="group relative rounded-[2.5rem] overflow-hidden bg-light aspect-[4/5] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
+                        <img src="{{ $video->thumbnail_url ? (str_starts_with($video->thumbnail_url, 'http') ? $video->thumbnail_url : asset('storage/' . $video->thumbnail_url)) : 'https://placehold.co/600x800/000/fff?text=' . urlencode($video->customer_name) }}" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                        
+                        <button onclick="openVideoLightbox('{{ $video->video_url }}')" class="absolute inset-0 flex items-center justify-center transition-all duration-300">
+                            <div class="relative transform group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-white rounded-full video-ping-animation opacity-40"></div>
+                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-2xl relative z-10 transition-all duration-300">
+                                    <i class="fas fa-play text-primary ml-1 text-2xl"></i>
+                                </div>
                             </div>
-                        </div>
-                    </button>
+                        </button>
 
-                    <div class="absolute bottom-0 left-0 w-full p-10 translate-y-6 group-hover:translate-y-0 transition-all duration-500">
-                        <div class="flex items-center gap-3 mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
-                            <div class="w-1 h-6 bg-primary rounded-full"></div>
-                            <span class="text-[10px] font-black text-white/50 uppercase tracking-[0.3em]">Verified Customer</span>
+                        <div class="absolute bottom-0 left-0 w-full p-10 translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+                            <div class="flex items-center gap-3 mb-3 opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                                <div class="w-1 h-6 bg-primary rounded-full"></div>
+                                <span class="text-[10px] font-black text-white/50 uppercase tracking-[0.3em]">Verified Customer</span>
+                            </div>
+                            <h4 class="text-2xl font-black text-white mb-2 font-display">{{ $video->customer_name }}</h4>
+                            <p class="text-white/60 text-sm italic font-medium line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">"{{ $video->comment }}"</p>
                         </div>
-                        <h4 class="text-2xl font-black text-white mb-2 font-display">{{ $video->customer_name }}</h4>
-                        <p class="text-white/60 text-sm italic font-medium line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">"{{ $video->comment }}"</p>
                     </div>
-                </div>
-            @endforeach
-        </div>
+                @empty
+                    <div class="col-span-full py-20 text-center opacity-40">
+                        <i class="fas fa-video-slash text-4xl mb-4 block"></i>
+                        <p class="font-black uppercase tracking-widest text-xs">No active testimonials found</p>
+                    </div>
+                @endforelse
+            </div>
         
         <div class="mt-12 text-center">
             <a href="{{ route('happy.customers') }}" class="inline-block px-8 py-4 border-2 border-secondary text-secondary font-bold uppercase tracking-widest hover:bg-secondary hover:text-white transition-all rounded-full">View All Stories</a>
