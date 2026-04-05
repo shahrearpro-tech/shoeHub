@@ -11,7 +11,7 @@ class BlogController extends Controller
     public function index()
     {
         $posts = BlogPost::active()->latest()->paginate(9);
-        $videos = CustomerVideo::active()->featured()->latest()->take(6)->get();
+        $videos = CustomerVideo::active()->latest()->take(6)->get(); // Show all active, not just featured
         return view('pages.blog.index', compact('posts', 'videos'));
     }
 
@@ -19,7 +19,7 @@ class BlogController extends Controller
     {
         $post = BlogPost::where('slug', $slug)->active()->firstOrFail();
         $recentPosts = BlogPost::active()->where('id', '!=', $post->id)->latest()->take(3)->get();
-        $videos = CustomerVideo::active()->featured()->latest()->take(6)->get();
+        $videos = CustomerVideo::active()->latest()->take(6)->get(); // Show all active, not just featured
         return view('pages.blog.show', compact('post', 'recentPosts', 'videos'));
     }
 }

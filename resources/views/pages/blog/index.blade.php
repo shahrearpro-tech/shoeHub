@@ -97,7 +97,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach($videos as $video)
+                @forelse($videos as $video)
                     <div class="group relative rounded-[2.5rem] overflow-hidden bg-light aspect-[4/5] shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
                         <img src="{{ $video->thumbnail_url ? (str_starts_with($video->thumbnail_url, 'http') ? $video->thumbnail_url : asset('storage/' . $video->thumbnail_url)) : 'https://placehold.co/600x800/000/fff?text=' . urlencode($video->customer_name) }}" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
@@ -120,7 +120,12 @@
                             <p class="text-white/60 text-sm italic font-medium line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">"{{ $video->comment }}"</p>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-full py-20 text-center opacity-40">
+                        <i class="fas fa-video-slash text-4xl mb-4 block"></i>
+                        <p class="font-black uppercase tracking-widest text-xs">No active testimonials found</p>
+                    </div>
+                @endforelse
             </div>
             
             <div class="mt-12 text-center">

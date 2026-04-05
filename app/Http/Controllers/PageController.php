@@ -11,7 +11,7 @@ class PageController extends Controller
     public function returns()  { return view('pages.returns'); }
     public function sizeGuide(){ return view('pages.size-guide'); }
     public function happyCustomers() { 
-        $videos = \App\Models\CustomerVideo::active()->featured()->latest()->get();
+        $videos = \App\Models\CustomerVideo::active()->latest()->get();
         return view('pages.happy-customers', compact('videos')); 
     }
 }
